@@ -3,3 +3,6 @@ assemble:
 
 boot: assemble
 	qemu-system-i386 -fda boot.bin
+
+clean:
+	rm -f boot.bin
