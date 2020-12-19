@@ -15,7 +15,7 @@ boot:
     mov cr0, eax
     jmp CODE:main_code      ; jump to CODE segment
 
-; setting up the global descriptor table
+; set up the global descriptor table
 globdesc_start:
     dq 0x0
 
@@ -42,16 +42,16 @@ globdesc_ptr:
     dw globdesc_end - globdesc_start
     dd globdesc_start
 
-; shifting to protected mode (32-bit)
+; shift to protected mode (32-bit)
 bits 32
 
 main_code:
     mov esi, msg                ; store the message string in esi
-    mov ebx, 0xb8000            ; initialising the VGA buffer
+    mov ebx, 0xb8000            ; initialise the VGA buffer
 
 .loop:
     lodsb                       ; load esi to al and increments esi
-    or al, al                   ; checks if end of string has been reached
+    or al, al                   ; check if end of string has been reached
     jz stop                     ; jump to stop if al is zero
     or eax, 0x0F00              ; set text color to white
     mov word [ebx], ax          ; move a single character of the message to the buffer
@@ -62,7 +62,7 @@ stop:
     mov eax, cr0                ; to print the value of cr0
     or eax, 0x0F00
     mov [ebx], eax
-    cli                         ; disable al interrupts
+    cli                         ; disable all interrupts
     hlt                         ; halt execution
 
 msg: db "Hello, World. Value of cr0 in ASCII:", 0
