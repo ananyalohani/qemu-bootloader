@@ -1,7 +1,7 @@
 ; Name: Ananya Lohani
 ; Roll Number: 2019018
 
-; starting in real mode (16 bit)
+; starting in real mode (16-bit)
 bits 16
 org 0x7c00
 
