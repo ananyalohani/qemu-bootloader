@@ -11,7 +11,7 @@ boot:
     mov eax, cr0
     or eax, 0x1
     mov cr0, eax
-    jmp CODE_SEG:main_code
+    jmp CODE:main_code
 
 globdesc_start:
     dq 0x0
@@ -38,13 +38,13 @@ globdesc_ptr:
     dw globdesc_end - globdesc_start
     dd globdesc_start
 
-CODE_SEG equ globdesc_code - globdesc_start
-DATA_SEG equ globdesc_data - globdesc_start
+CODE equ globdesc_code - globdesc_start
+DATA equ globdesc_data - globdesc_start
 
 bits 32
 
 main_code:
-    mov ax, DATA_SEG
+    mov ax, DATA
     mov gs, ax
     mov es, ax
     mov ss, ax
@@ -56,19 +56,20 @@ main_code:
 .loop:
     lodsb
     or al, al
-    jz halt
+    jz stop
     or eax, 0x0F00
     mov word [ebx], ax
     add ebx, 2
     jmp .loop
 
-halt:
-    ;mov eax, cr0
-    ;mov [ebx], eax
+stop:
+    mov eax, cr0
+    or eax, 0x0F00
+    mov [ebx], eax
     cli
     hlt
 
-msg: db "Hello, World.", 0
+msg: db "Hello, World. ", 0
 
 times 510 - ($ - $$) db 0
 dw 0xaa55
