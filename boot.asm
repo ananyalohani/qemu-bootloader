@@ -3,7 +3,7 @@
 
 ; starting in real mode (16-bit)
 bits 16
-org 0x7c00
+org 0x7c00                  ; start output at offset 0x7c00
 
 boot:
     mov ax, 0x3
@@ -67,6 +67,5 @@ stop:
 
 msg: db "Hello, World. Value of cr0 in ASCII:", 0
 
-; Magic numbers for loading the binary as a bootable image
-times 510 - ($ - $$) db 0
-dw 0xaa55
+times 510 - ($ - $$) db 0       ; pad the remaining bytes with 0
+dw 0xaa55                       ; Magic number for loading the 512 byte sector as a bootable image
